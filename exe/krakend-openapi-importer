@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+lib_path = File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift(lib_path) unless $LOAD_PATH.include?(lib_path)
+require 'importer'
+
+Signal.trap('INT') do
+  warn("\n#{caller.join("\n")}: interrupted")
+  exit(1)
+end
+
+begin
+  KrakendOpenAPI::Importer.start(ARGV)
+rescue StandardError => e
+  raise e # TODO: Remove this line after debugging
+  puts "ERROR: #{e.message}"
+  exit 1
+end

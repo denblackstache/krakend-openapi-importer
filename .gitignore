@@ -1,0 +1,14 @@
+.idea/
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/data/
+output.json
+
+# rspec failure tracking
+.rspec_status
