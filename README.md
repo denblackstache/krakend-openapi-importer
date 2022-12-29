@@ -2,7 +2,7 @@
 
 Import endpoints from OpenAPI spec to KrakenD endpoint configuration. Supports OpenAPI v3.0 and up.
 
-[![Ruby](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml/badge.svg)](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml)
+[![Ruby](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml/badge.svg)](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml) [![Gem Version](https://badge.fury.io/rb/krakend-openapi-importer.svg)](https://badge.fury.io/rb/krakend-openapi-importer)
 
 In case you have a different version of OpenAPI you can use https://github.com/LucyBot-Inc/api-spec-converter to convert to the v3.0.
 
