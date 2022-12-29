@@ -17,14 +17,14 @@ Execute
 Import OpenAPI spec from SPEC file. Writes KrakenD config to output.json
 
 ```bash
-krakend-openapi-importer import SPEC
+krakend-openapi-importer import SPEC -c CONFIG 
 ```
 
 ```bash
 Options:
+-c, --config=CONFIG  # Path to importer.yaml config
 -s, [--syntax=SYNTAX]  # Specifies input data syntax: json or yaml. Defaults to json
 # Default: json
--c, [--config=CONFIG]  # Path to importer.yaml config
 ```
 
 ## Configuration
@@ -34,6 +34,7 @@ Example config
 ```yaml
 ---
 all_roles: ['admin', 'guest'] # all available roles for JWT validator
+pretty: false
 defaults:
   endpoint:
     output_encoding: "no-op" # act like a no-op proxy

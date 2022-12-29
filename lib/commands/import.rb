@@ -19,7 +19,7 @@ module KrakendOpenAPI
     def execute
       paths = OA3Reader.new.read(@spec).paths
       endpoints = OA3ToKrakendTransformer.new(@importer_config).transform_paths(paths)
-      KrakendWriter.new.write(endpoints)
+      KrakendWriter.new(@importer_config).write(endpoints)
     end
   end
 end
