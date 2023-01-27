@@ -34,12 +34,15 @@ Example config
 ```yaml
 ---
 all_roles: ['admin', 'guest'] # all available roles for JWT validator
-pretty: false
+pretty: true
+output: 'output.json'
 defaults:
   endpoint:
     output_encoding: "no-op" # act like a no-op proxy
     input_headers: [ "*" ]
     input_query_strings: [ "*" ]
+  backend:
+    - encoding: "no-op"
   plugins:
     auth_validator:
       alg: 'RS256'
