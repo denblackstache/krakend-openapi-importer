@@ -6,5 +6,12 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rake', '~> 13.0'
-gem 'rspec', '~> 3.0'
-gem 'rubocop', require: false
+
+group :test do
+  gem 'fakefs', '~> 2.0'
+  gem 'minitest', '~> 5.13'
+end
+
+group :development do
+  gem 'rubocop', require: false
+end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+
 module KrakendOpenAPI
   # Reads JSON files
   class JsonReader

@@ -1,0 +1,21 @@
+---
+all_roles:
+  - 'admin'
+  - 'guest'
+pretty: true
+output: 'output.json'
+defaults:
+  endpoint:
+    output_encoding: "no-op"
+    input_headers: [ "*" ]
+    input_query_strings: [ "*" ]
+  backend:
+    - encoding: "no-op"
+  plugins:
+    auth_validator:
+      alg: 'RS256'
+      jwk_url: 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs'
+      cache: false
+      operation_debug: true
+      roles_key: 'realm_access.roles'
+      roles_key_is_nested: true

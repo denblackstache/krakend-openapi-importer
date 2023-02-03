@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+require 'test_helper'
 require_relative '../lib/importer/version'
 
-RSpec.describe KrakendOpenAPI::Importer do
+describe 'Importer' do
   it 'has a version number' do
-    expect(KrakendOpenAPI::VERSION).not_to be nil
+    assert(!KrakendOpenAPI::VERSION.nil?)
   end
 end
