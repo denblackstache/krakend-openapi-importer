@@ -24,10 +24,12 @@ module KrakendOpenAPI
       roles = operation['x-jwt-roles']&.length ? operation['x-jwt-roles'] : @importer_config['all_roles']
 
       plugins = []
-      plugins << JwtValidatorTransformer
-                 .new
-                 .transform_to_hash(roles: roles,
-                                    config: @importer_config['defaults']['plugins']['auth_validator'])
+      if @importer_config['defaults'] && @importer_config['defaults']['plugins'] && @importer_config['defaults']['plugins']['auth_validator']
+        plugins << JwtValidatorTransformer
+                     .new
+                     .transform_to_hash(roles: roles,
+                                        config: @importer_config['defaults']['plugins']['auth_validator'])
+      end
 
       endpoint = {
         endpoint: path,
@@ -38,11 +40,14 @@ module KrakendOpenAPI
         backend: [{ url_pattern: path, encoding: @importer_config['defaults']['backend'][0]['encoding'] }]
       }
 
-      extra_config = plugins.each_with_object({}) do |plugin, memo|
-        memo[plugin[:name].to_sym] = plugin[:value]
+      if plugins&.length > 0
+        extra_config = plugins.each_with_object({}) do |plugin, memo|
+          memo[plugin[:name].to_sym] = plugin[:value]
+        end
+
+        endpoint[:extra_config] = extra_config
       end
 
-      endpoint[:extra_config] = extra_config
       endpoint
     end
   end
