@@ -24,7 +24,7 @@ module KrakendOpenAPI
       roles = operation['x-jwt-roles']&.length ? operation['x-jwt-roles'] : @importer_config['all_roles']
 
       plugins = []
-      if @importer_config['defaults'] && @importer_config['defaults']['plugins'] && @importer_config['defaults']['plugins']['auth_validator']
+      if @importer_config['defaults']&.dig('plugins', 'auth_validator')
         plugins << JwtValidatorTransformer
                      .new
                      .transform_to_hash(roles: roles,
