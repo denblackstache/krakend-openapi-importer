@@ -11,7 +11,7 @@ module KrakendOpenAPI
     end
 
     def paths
-      read unless @data
+      read unless defined?(@data)
       @data['paths']
     end
 

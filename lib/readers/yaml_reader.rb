@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require_relative './file_reader'
 
 module KrakendOpenAPI
   # Reads YAML files
@@ -10,7 +11,7 @@ module KrakendOpenAPI
     end
 
     def read
-      YAML.safe_load(File.read("#{Dir.pwd}/#{@file_path}"))
+      YAML.safe_load(KrakendOpenAPI::FileReader.new(@file_path).read)
     end
   end
 end

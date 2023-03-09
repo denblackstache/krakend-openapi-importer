@@ -13,7 +13,6 @@ end
 begin
   KrakendOpenAPI::Importer.start(ARGV)
 rescue StandardError => e
-  raise e # TODO: Remove this line after debugging
   puts "ERROR: #{e.message}"
   exit 1
 end

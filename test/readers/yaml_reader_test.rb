@@ -5,8 +5,9 @@ require_relative '../../lib/readers/yaml_reader'
 
 describe 'YamlReader' do
   let(:file_path) { 'test/fixtures/pet-store.yaml' }
+  let(:subject) { KrakendOpenAPI::YamlReader.new(file_path) }
 
   it 'reads yaml' do
-    assert(KrakendOpenAPI::YamlReader.new(file_path).read['info']['title'] == 'Swagger Petstore')
+    assert(subject.read['info']['title'] == 'Swagger Petstore')
   end
 end

@@ -8,6 +8,7 @@ gemspec
 gem 'rake', '~> 13.0'
 
 group :test do
+  gem 'awesome_print'
   gem 'fakefs', '~> 2.0'
   gem 'minitest', '~> 5.13'
 end

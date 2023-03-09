@@ -5,8 +5,9 @@ require_relative '../../lib/readers/json_reader'
 
 describe 'JsonReader' do
   let(:file_path) { 'test/fixtures/pet-store.json' }
+  let(:subject) { KrakendOpenAPI::JsonReader.new(file_path) }
 
   it 'reads json' do
-    assert(KrakendOpenAPI::JsonReader.new(file_path).read['info']['title'] == 'Swagger Petstore')
+    assert(subject.read['info']['title'] == 'Swagger Petstore')
   end
 end

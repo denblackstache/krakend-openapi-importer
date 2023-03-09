@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require 'pathname'
 require 'yaml'
 require_relative '../readers/oa3_reader'
+require_relative '../readers/yaml_reader'
 require_relative '../transformers/oa3_transformer'
 require_relative '../writers/krakend_writer'
 
@@ -13,7 +15,7 @@ module KrakendOpenAPI
       @syntax = syntax
       @config = config
 
-      @importer_config = YAML.safe_load(File.read("#{Dir.pwd}/#{@config}"))
+      @importer_config = YamlReader.new(@config).read
     end
 
     def execute

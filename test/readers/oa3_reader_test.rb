@@ -4,24 +4,39 @@ require 'test_helper'
 require_relative '../../lib/readers/oa3_reader'
 
 describe 'OpenAPI 3.0 Reader' do
-  it 'reads OpenAPI spec in json' do
-    assert(KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.json')
-                                    .paths['/pet']['post']['operationId'] == 'addPet')
+  let(:subject) { KrakendOpenAPI::OA3Reader.new(path) }
+
+  describe 'having the OpenAPI spec in json' do
+    let(:path) { 'test/fixtures/pet-store.json' }
+
+    it 'reads the spec' do
+      assert(subject.paths['/pet']['post']['operationId'] == 'addPet')
+    end
   end
 
-  it 'reads OpenAPI spec in yaml' do
-    assert(KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.yaml')
-                                    .paths['/pet']['post']['operationId'] == 'addPet')
+  describe 'having the OpenAPI spec in yaml' do
+    let(:path) { 'test/fixtures/pet-store.yaml' }
+
+    it 'reads the spec' do
+      assert(subject.paths['/pet']['post']['operationId'] == 'addPet')
+    end
   end
 
-  it 'reads OpenAPI spec in yml' do
-    assert(KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.yml')
-                                    .paths['/pet']['post']['operationId'] == 'addPet')
+  describe 'having the OpenAPI spec in yml' do
+    let(:path) { 'test/fixtures/pet-store.yml' }
+
+    it 'reads the spec' do
+      assert(subject.paths['/pet']['post']['operationId'] == 'addPet')
+    end
   end
 
-  it 'doesn\'t read spec in other formats' do
-    assert_raises(StandardError, 'OA3Reader does not support this format') do
-      KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.toml').paths
+  describe 'having the OpenAPI spec in other formats' do
+    let(:path) { 'test/fixtures/pet-store.toml' }
+
+    it 'doesn\'t read the spec' do
+      assert_raises(StandardError, 'OA3Reader does not support this format') do
+        subject.paths
+      end
     end
   end
 end

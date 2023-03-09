@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './jwt_validator_transformer'
+require_relative './plugins/auth_validator_transformer'
 
 module KrakendOpenAPI
   # Transforms OpenAPI paths to KrakenD endpoints
@@ -24,7 +24,7 @@ module KrakendOpenAPI
       roles = operation['x-jwt-roles']&.length ? operation['x-jwt-roles'] : @importer_config['all_roles']
 
       plugins = []
-      plugins << JwtValidatorTransformer
+      plugins << Plugins::AuthValidatorTransformer
                  .new
                  .transform_to_hash(roles: roles,
                                     config: @importer_config['defaults']['plugins']['auth_validator'])

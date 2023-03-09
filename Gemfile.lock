@@ -8,6 +8,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    awesome_print (1.9.2)
     fakefs (2.0.0)
     json (2.6.2)
     minitest (5.13.0)
@@ -40,6 +41,7 @@ PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
+  awesome_print
   fakefs (~> 2.0)
   krakend-openapi-importer!
   minitest (~> 5.13)
