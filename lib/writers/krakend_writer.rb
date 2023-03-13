@@ -26,7 +26,7 @@ module KrakendOpenAPI
       if Pathname.new(@output_file_path).absolute?
         @output_file_path
       else
-        "#{pwd}#{pwd.end_with?('/') ? '' : '/'}#{@output_file_path}"
+        File.expand_path(@output_file_path, pwd)
       end
     end
   end

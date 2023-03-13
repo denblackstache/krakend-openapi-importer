@@ -58,6 +58,16 @@ describe 'Krakend Writer' do
     end
   end
 
+  describe 'having relative path' do
+    let(:config) { { 'output' => './output-relative.json' } }
+
+    it 'writes output' do
+      subject.write
+      output = JSON.parse(File.read('output-relative.json'))
+      assert_equal(3, output['version'])
+    end
+  end
+
   describe 'having pretty option enabled' do
     let(:config) { { 'pretty' => true, 'output' => 'output-pretty.json' } }
 

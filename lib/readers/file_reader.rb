@@ -12,7 +12,7 @@ module KrakendOpenAPI
       if Pathname.new(@file_path).absolute?
         File.read(@file_path)
       else
-        File.read("#{pwd}#{pwd.end_with?('/') ? '' : '/'}#{@file_path}")
+        File.read(File.expand_path(@file_path, pwd))
       end
     end
   end
