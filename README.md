@@ -22,9 +22,7 @@ krakend-openapi-importer import SPEC -c CONFIG
 
 ```bash
 Options:
--c, --config=CONFIG  # Path to importer.yaml config
--s, [--syntax=SYNTAX]  # Specifies input data syntax: json or yaml. Defaults to json
-# Default: json
+-c, [--config=CONFIG]  # Path to importer.yaml config
 ```
 
 ## Configuration

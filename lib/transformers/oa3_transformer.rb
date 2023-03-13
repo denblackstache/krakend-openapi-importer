@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './jwt_validator_transformer'
+require_relative './plugins/auth_validator_transformer'
 
 module KrakendOpenAPI
   # Transforms OpenAPI paths to KrakenD endpoints
@@ -25,22 +25,22 @@ module KrakendOpenAPI
 
       plugins = []
       if @importer_config['defaults']&.dig('plugins', 'auth_validator')
-        plugins << JwtValidatorTransformer
-                     .new
-                     .transform_to_hash(roles: roles,
-                                        config: @importer_config['defaults']['plugins']['auth_validator'])
+        plugins << Plugins::AuthValidatorTransformer
+                   .new
+                   .transform_to_hash(roles: roles,
+                                      config: @importer_config['defaults']['plugins']['auth_validator'])
       end
 
       endpoint = {
         endpoint: path,
         method: method.upcase,
-        output_encoding: @importer_config['defaults']['endpoint']['output_encoding'],
-        input_headers: @importer_config['defaults']['endpoint']['input_headers'],
-        input_query_strings: @importer_config['defaults']['endpoint']['input_query_strings'],
-        backend: [{ url_pattern: path, encoding: @importer_config['defaults']['backend'][0]['encoding'] }]
-      }
+        output_encoding: @importer_config['defaults']&.dig('endpoint', 'output_encoding'),
+        input_headers: @importer_config['defaults']&.dig('endpoint', 'input_headers'),
+        input_query_strings: @importer_config['defaults']&.dig('endpoint', 'input_query_strings'),
+        backend: [{ url_pattern: path, encoding: @importer_config['defaults']&.dig('backend', 0, 'encoding') }.compact]
+      }.compact
 
-      if plugins&.length > 0
+      if plugins&.length&.> 0
         extra_config = plugins.each_with_object({}) do |plugin, memo|
           memo[plugin[:name].to_sym] = plugin[:value]
         end

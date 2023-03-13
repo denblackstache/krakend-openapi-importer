@@ -2,7 +2,7 @@
 all_roles:
   - 'admin'
   - 'guest'
-pretty: true
+pretty: false
 output: 'output.json'
 defaults:
   endpoint:

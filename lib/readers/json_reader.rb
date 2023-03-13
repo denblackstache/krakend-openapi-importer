@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require_relative './file_reader'
 
 module KrakendOpenAPI
   # Reads JSON files
@@ -10,7 +11,7 @@ module KrakendOpenAPI
     end
 
     def read
-      JSON.parse(File.read("#{Dir.pwd}/#{@file_path}"))
+      JSON.parse(KrakendOpenAPI::FileReader.new(@file_path).read)
     end
   end
 end
