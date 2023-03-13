@@ -10,12 +10,9 @@ require_relative '../writers/krakend_writer'
 module KrakendOpenAPI
   # Import Command
   class ImportCommand
-    def initialize(spec:, syntax:, config:)
+    def initialize(spec:, config:)
       @spec = spec
-      @syntax = syntax
-      @config = config
-
-      @importer_config = YamlReader.new(@config).read
+      @importer_config = config ? YamlReader.new(config).read : {}
     end
 
     def execute

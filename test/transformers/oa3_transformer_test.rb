@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'yaml'
 require_relative '../../lib/readers/oa3_reader'
 require_relative '../../lib/transformers/oa3_transformer'
 
@@ -39,6 +38,16 @@ describe 'OpenAPI 3.0 Transformer' do
   end
 
   describe 'having missing importer config properties' do
-    it 'transforms with defaults'
+    let(:importer_config) { {} }
+
+    it 'transforms' do
+      result = subject.transform_paths
+      assert_equal({
+                     endpoint: '/pet',
+                     method: 'POST',
+                     backend: [{ url_pattern: '/pet' }]
+                   },
+                   result[0])
+    end
   end
 end

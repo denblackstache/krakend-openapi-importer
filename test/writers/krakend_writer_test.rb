@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'yaml'
 require_relative '../../lib/writers/krakend_writer'
 
 describe 'Krakend Writer' do
@@ -11,8 +10,8 @@ describe 'Krakend Writer' do
 
   before do
     FakeFS.activate!
-    fixtures = File.expand_path('../../fixtures', __FILE__)
-    pwd = File.expand_path('../../..', __FILE__)
+    fixtures = File.expand_path('../fixtures', __dir__)
+    pwd = File.expand_path('../..', __dir__)
     FakeFS::FileSystem.clone(fixtures)
     Dir.chdir(pwd)
   end
@@ -26,7 +25,9 @@ describe 'Krakend Writer' do
     result = subject.write
     assert(result.positive?)
     assert(File.exist?(config['output']))
-    assert_json(File.read(config['output']))
+    content = File.read(config['output'])
+    assert_json(content)
+    assert_equal(1, content.lines.length)
   end
 
   it 'writes $schema, version and endpoints' do
@@ -38,14 +39,32 @@ describe 'Krakend Writer' do
   end
 
   describe 'having missing importer config properties' do
-    it 'writes using defaults'
+    let(:config) { {} }
+
+    it 'writes' do
+      subject.write
+      output = JSON.parse(File.read('output.json'))
+      assert_equal(3, output['version'])
+    end
   end
 
   describe 'having absolute path' do
-    it 'writes output'
+    let(:config) { { 'output' => File.expand_path('output-absolute.json') } }
+
+    it 'writes output' do
+      subject.write
+      output = JSON.parse(File.read('output-absolute.json'))
+      assert_equal(3, output['version'])
+    end
   end
 
   describe 'having pretty option enabled' do
-    it 'makes json pretty'
+    let(:config) { { 'pretty' => true, 'output' => 'output-pretty.json' } }
+
+    it 'makes json pretty' do
+      subject.write
+      content = File.read(config['output'])
+      assert(content.lines.length > 1)
+    end
   end
 end

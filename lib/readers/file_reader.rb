@@ -17,6 +17,3 @@ module KrakendOpenAPI
     end
   end
 end
-
-
-

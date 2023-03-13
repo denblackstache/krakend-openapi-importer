@@ -5,6 +5,8 @@ module KrakendOpenAPI
     # Transforms Auth Validator plugin definition
     class AuthValidatorTransformer
       def transform_to_hash(roles:, config:)
+        raise(StandardError, 'Roles are empty') if roles.empty?
+
         {
           name: 'auth/validator',
           value: {
@@ -15,7 +17,7 @@ module KrakendOpenAPI
             'roles_key_is_nested': config['roles_key_is_nested'],
             'roles_key': config['roles_key'],
             'roles': roles
-          }
+          }.compact
         }
       end
     end

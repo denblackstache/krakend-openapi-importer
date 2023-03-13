@@ -5,10 +5,9 @@ require_relative '../../lib/commands/import'
 
 describe 'Import Command' do
   let(:spec) { 'test/fixtures/pet-store.json' }
-  let(:syntax) { 'json' }
   let(:importer_config) { 'test/fixtures/importer.yaml' }
   let(:config) { YAML.safe_load(File.read(importer_config)) }
-  let(:subject) { KrakendOpenAPI::ImportCommand.new(spec: spec, syntax: syntax, config: importer_config) }
+  let(:subject) { KrakendOpenAPI::ImportCommand.new(spec: spec, config: importer_config) }
 
   before do
     FakeFS.activate!
@@ -33,7 +32,7 @@ describe 'Import Command' do
     assert(content == expected_content)
   end
 
-  describe 'having absolute path for spec/condifg' do
+  describe 'having absolute path for spec/config' do
     let(:spec) { File.expand_path('test/fixtures/pet-store.json') }
     let(:importer_config) { File.expand_path('test/fixtures/importer.yaml') }
 
@@ -44,6 +43,19 @@ describe 'Import Command' do
 
       content = File.read(config['output'])
       expected_content = File.read('test/fixtures/krakend-endpoints-output.json')
+      assert(content == expected_content)
+    end
+  end
+
+  describe 'having missing importer config' do
+    let(:importer_config) { nil }
+    let(:config) { { 'output' => 'output.json' } }
+
+    it 'imports OpenAPI spec' do
+      subject.execute
+
+      content = File.read(config['output'])
+      expected_content = File.read('test/fixtures/krakend-endpoints-output-no-config.json')
       assert(content == expected_content)
     end
   end

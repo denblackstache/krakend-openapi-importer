@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'yaml'
 require_relative '../../../lib/transformers/plugins/auth_validator_transformer'
 
 describe 'Auth Validator Transformer' do
@@ -25,10 +24,18 @@ describe 'Auth Validator Transformer' do
   end
 
   describe 'having empty roles' do
-    it 'raises an error'
+    let(:roles) { [] }
+    it 'raises an error' do
+      assert_raises do
+        subject.transform_to_hash(roles: roles, config: importer_config['defaults']['plugins']['auth_validator'])
+      end
+    end
   end
 
-  describe 'having missing importer config properties' do
-    it 'transforms with defaults'
+  describe 'having missing plugin config properties' do
+    it 'transforms' do
+      result = subject.transform_to_hash(roles: roles, config: {})
+      assert_equal({ name: 'auth/validator', value: { roles: ['admin'] } }, result)
+    end
   end
 end
