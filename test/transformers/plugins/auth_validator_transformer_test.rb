@@ -25,10 +25,9 @@ describe 'Auth Validator Transformer' do
 
   describe 'having empty roles' do
     let(:roles) { [] }
-    it 'raises an error' do
-      assert_raises do
-        subject.transform_to_hash(roles: roles, config: importer_config['defaults']['plugins']['auth_validator'])
-      end
+    it 'returns no roles' do
+      result = subject.transform_to_hash(roles: roles, config: {})
+      assert_nil(result[:value][:roles])
     end
   end
 

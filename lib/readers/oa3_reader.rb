@@ -11,22 +11,27 @@ module KrakendOpenAPI
     end
 
     def paths
-      read unless defined?(@data)
-      @data['paths']
+      data['paths']
+    end
+
+    def security
+      data['security']
+    end
+
+    def security_schemes
+      data.dig('components', 'securitySchemes')
     end
 
     private
 
-    def read
-      if ['.json'].include?(File.extname(@path))
-        @data = JsonReader.new(@path).read
-      elsif %w[.yaml .yml].include?(File.extname(@path))
-        @data = YamlReader.new(@path).read
-      else
-        raise StandardError, 'OA3Reader does not support this format'
-      end
-
-      self
+    def data
+      @data ||= if ['.json'].include?(File.extname(@path))
+                  JsonReader.new(@path).read
+                elsif %w[.yaml .yml].include?(File.extname(@path))
+                  YamlReader.new(@path).read
+                else
+                  raise StandardError, 'OA3Reader does not support this format'
+                end
     end
   end
 end

@@ -27,9 +27,10 @@ describe 'Import Command' do
     assert(result.positive?)
     assert(File.exist?(config['output']))
 
-    content = File.read(config['output'])
-    expected_content = File.read('test/fixtures/krakend-endpoints-output.json')
-    assert(content == expected_content)
+    content = JSON.parse(File.read(config['output']))
+
+    expected_content = JSON.parse(File.read('test/fixtures/krakend-endpoints-output.json'))
+    assert_equal(expected_content, content)
   end
 
   describe 'having absolute path for spec/config' do
@@ -41,9 +42,9 @@ describe 'Import Command' do
       assert(result.positive?)
       assert(File.exist?(config['output']))
 
-      content = File.read(config['output'])
-      expected_content = File.read('test/fixtures/krakend-endpoints-output.json')
-      assert(content == expected_content)
+      content = JSON.parse(File.read(config['output']))
+      expected_content = JSON.parse(File.read('test/fixtures/krakend-endpoints-output.json'))
+      assert_equal(expected_content, content)
     end
   end
 
