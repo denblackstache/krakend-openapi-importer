@@ -4,7 +4,7 @@ Import endpoints from OpenAPI spec to KrakenD endpoint configuration. Supports O
 
 [![Ruby](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml/badge.svg)](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml) [![Gem Version](https://badge.fury.io/rb/krakend-openapi-importer.svg)](https://badge.fury.io/rb/krakend-openapi-importer)
 
-In case you have a different version of OpenAPI you can use https://github.com/LucyBot-Inc/api-spec-converter to convert to the v3.0.
+In case you have a different version of OpenAPI you can use <https://github.com/LucyBot-Inc/api-spec-converter> to convert to the v3.0.
 
 ## Installation
 
@@ -17,7 +17,7 @@ Execute
 Import OpenAPI spec from SPEC file. Writes KrakenD config to output.json
 
 ```bash
-krakend-openapi-importer import SPEC -c CONFIG 
+krakend-openapi-importer import SPEC -c CONFIG
 ```
 
 ```bash
@@ -31,23 +31,26 @@ Example config
 
 ```yaml
 ---
-all_roles: ['admin', 'guest'] # all available roles for JWT validator
+all_roles: ["admin", "guest"] # all available roles for JWT validator
 pretty: true
-output: 'output.json'
+format: "json" # can be 'json' or 'yaml', defaults to `json`
+output: "output.json"
 defaults:
+  base:
+    name: Example application
   endpoint:
     output_encoding: "no-op" # act like a no-op proxy
-    input_headers: [ "*" ]
-    input_query_strings: [ "*" ]
+    input_headers: ["*"]
+    input_query_strings: ["*"]
   backend:
     - encoding: "no-op"
   plugins:
     auth_validator:
-      alg: 'RS256'
-      jwk_url: 'https://KEYCLOAK_URL/auth/realms/master/protocol/openid-connect/certs'
+      alg: "RS256"
+      jwk_url: "https://KEYCLOAK_URL/auth/realms/master/protocol/openid-connect/certs"
       cache: false
       operation_debug: true
-      roles_key: 'realm_access.roles'
+      roles_key: "realm_access.roles"
       roles_key_is_nested: true
 ```
 
@@ -59,7 +62,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/denblackstache/krakend-openapi-importer.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/denblackstache/krakend-openapi-importer>.
 
 ## License
 
