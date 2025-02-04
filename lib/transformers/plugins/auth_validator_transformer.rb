@@ -11,7 +11,8 @@ module KrakendOpenAPI
           'cache': config['cache'],
           'operation_debug': config['operation_debug'],
           'roles_key_is_nested': config['roles_key_is_nested'],
-          'roles_key': config['roles_key']
+          'roles_key': config['roles_key'],
+          'scopes_key': config['scopes_key']
         }.compact
 
         value[:roles] = roles unless roles.nil? || roles.empty?

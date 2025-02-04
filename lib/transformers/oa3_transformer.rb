@@ -47,7 +47,8 @@ module KrakendOpenAPI
       scopes = oauth_scopes_for(operation['security']) || oauth_scopes_for(@spec.security)
 
       plugins = []
-      if @importer_config['defaults']&.dig('plugins', 'auth_validator')
+      if @importer_config['defaults']&.dig('plugins', 'auth_validator') &&
+         (roles&.any? || scopes&.any?)
         plugins << Plugins::AuthValidatorTransformer
                    .new
                    .transform_to_hash(roles: roles,

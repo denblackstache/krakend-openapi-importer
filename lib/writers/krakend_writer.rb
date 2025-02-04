@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'yaml'
 
 module KrakendOpenAPI
   # Writes KrakenD configuration to a file
@@ -12,13 +13,18 @@ module KrakendOpenAPI
     end
 
     def write
-      pretty_output = !!@importer_config['pretty'] # rubocop:disable Style/DoubleNegation
-      json_generate = pretty_output ? ->(obj) { JSON.pretty_generate(obj) } : ->(obj) { JSON.dump(obj) }
-      File.write(file_path, json_generate.call({
-                                                 '$schema': 'https://www.krakend.io/schema/v3.json',
-                                                 version: 3,
-                                                 endpoints: @endpoints
-                                               }))
+      config = {
+        '$schema': 'https://www.krakend.io/schema/v3.json',
+        version: 3
+      }
+
+      config.merge!(
+        @importer_config['defaults']['base'] || {}
+      )
+
+      config[:endpoints] = @endpoints
+
+      File.write(file_path, format(config))
     end
 
     def file_path
@@ -27,6 +33,29 @@ module KrakendOpenAPI
         @output_file_path
       else
         File.expand_path(@output_file_path, pwd)
+      end
+    end
+
+    def format(obj)
+      format = @importer_config['format']
+      pretty_output = !!@importer_config['pretty'] # rubocop:disable Style/DoubleNegation
+
+      if format == 'yaml'
+        YAML.dump(stringify(obj))
+      elsif pretty_output
+        JSON.pretty_generate(obj)
+      else
+        JSON.dump(obj)
+      end
+    end
+
+    def stringify(obj)
+      if obj.is_a?(Array)
+        obj.map { |v| stringify(v) } if obj.is_a?(Array)
+      elsif obj.is_a?(Hash)
+        obj.map { |k, v| [k.to_s, stringify(v)] }.to_h
+      else
+        obj
       end
     end
   end
