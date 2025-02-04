@@ -19,7 +19,7 @@ module KrakendOpenAPI
       }
 
       config.merge!(
-        @importer_config['defaults']['base'] || {}
+        @importer_config.dig('defaults', 'base') || {}
       )
 
       config[:endpoints] = @endpoints
