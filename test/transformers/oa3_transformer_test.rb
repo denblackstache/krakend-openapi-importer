@@ -25,14 +25,14 @@ describe 'OpenAPI 3.0 Transformer' do
                    input_query_strings: ['*'],
                    backend: [{ url_pattern: '/pet', encoding: 'no-op' }],
                    extra_config: {
-                     'auth/validator': { alg: 'RS256',
-                                         jwk_url: 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs',
-                                         cache: false,
-                                         operation_debug: true,
-                                         roles_key_is_nested: true,
-                                         roles_key: 'realm_access.roles',
-                                         roles: %w[admin guest],
-                                         scopes: %w[write:pets read:pets] }
+                     'auth/validator': { 'alg' => 'RS256',
+                                         'jwk_url' => 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs',
+                                         'cache' => false,
+                                         'operation_debug' => true,
+                                         'roles_key' => 'realm_access.roles',
+                                         'roles_key_is_nested' => true,
+                                         'roles' => %w[admin guest],
+                                         'scopes' => %w[write:pets read:pets] }
                    }
                  },
                  result[0])
@@ -41,7 +41,7 @@ describe 'OpenAPI 3.0 Transformer' do
   describe 'having empty security scopes' do
     it 'is public' do
       result = subject.transform_paths
-      scopes = result[1][:extra_config][:'auth/validator'][:scopes]
+      scopes = result[1][:extra_config][:'auth/validator']['scopes']
       assert_nil(scopes)
     end
   end
@@ -49,7 +49,7 @@ describe 'OpenAPI 3.0 Transformer' do
   describe 'having default security scopes' do
     it 'has the default scopes' do
       result = subject.transform_paths
-      scopes = result[2][:extra_config][:'auth/validator'][:scopes]
+      scopes = result[2][:extra_config][:'auth/validator']['scopes']
       assert_equal(['read:pets'], scopes)
     end
   end
