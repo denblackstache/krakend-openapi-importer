@@ -52,6 +52,7 @@ defaults:
       operation_debug: true
       roles_key: "realm_access.roles"
       roles_key_is_nested: true
+      scopes_key: scopes # only needed when defining scopes in openapi spec
 ```
 
 ## Development
