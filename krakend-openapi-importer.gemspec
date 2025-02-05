@@ -6,11 +6,11 @@ Gem::Specification.new do |spec|
   spec.name          = 'krakend-openapi-importer'
   spec.version       = KrakendOpenAPI::VERSION
   spec.authors       = ['Denis Semenenko']
-  spec.email         = ['hypercoderx@gmail.com']
+  spec.email         = ['den@densemenenko.com']
 
   spec.summary       = 'Import OpenAPI spec to KrakenD configuration'
   spec.description   = 'Import endpoints from OpenAPI spec to KrakenD endpoint configuration. Supports OpenAPI v3.0'
-  spec.homepage      = 'https://hypercoder.net'
+  spec.homepage      = 'https://densemenenko.com'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.7'
 
