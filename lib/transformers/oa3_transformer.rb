@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './plugins/auth_validator_transformer'
+require_relative 'plugins/auth_validator_transformer'
 
 module KrakendOpenAPI
   # Transforms OpenAPI paths to KrakenD endpoints

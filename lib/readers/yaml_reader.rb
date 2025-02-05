@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'yaml'
-require_relative './file_reader'
+require_relative 'file_reader'
 
 module KrakendOpenAPI
   # Reads YAML files

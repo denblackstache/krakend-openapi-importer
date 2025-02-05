@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
-require_relative './lib/importer/version'
+require_relative 'lib/importer/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'krakend-openapi-importer'
   spec.version       = KrakendOpenAPI::VERSION
   spec.authors       = ['Denis Semenenko']
-  spec.email         = ['hypercoderx@gmail.com']
+  spec.email         = ['den@densemenenko.com']
 
   spec.summary       = 'Import OpenAPI spec to KrakenD configuration'
   spec.description   = 'Import endpoints from OpenAPI spec to KrakenD endpoint configuration. Supports OpenAPI v3.0'
-  spec.homepage      = 'https://hypercoder.net'
+  spec.homepage      = 'https://github.com/denblackstache/krakend-openapi-importer'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.7'
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/denblackstache/krakend-openapi-importer'
