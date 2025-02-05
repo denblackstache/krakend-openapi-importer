@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Import OpenAPI spec to KrakenD configuration'
   spec.description   = 'Import endpoints from OpenAPI spec to KrakenD endpoint configuration. Supports OpenAPI v3.0'
-  spec.homepage      = 'https://densemenenko.com'
+  spec.homepage      = 'https://github.com/denblackstache/krakend-openapi-importer'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.7'
 
