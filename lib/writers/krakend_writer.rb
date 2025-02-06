@@ -53,7 +53,7 @@ module KrakendOpenAPI
       if obj.is_a?(Array)
         obj.map { |v| stringify(v) } if obj.is_a?(Array)
       elsif obj.is_a?(Hash)
-        obj.map { |k, v| [k.to_s, stringify(v)] }.to_h
+        obj.to_h { |k, v| [k.to_s, stringify(v)] }
       else
         obj
       end

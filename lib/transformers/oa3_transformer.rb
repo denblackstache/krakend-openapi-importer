@@ -5,7 +5,7 @@ require_relative 'plugins/auth_validator_transformer'
 module KrakendOpenAPI
   # Transforms OpenAPI paths to KrakenD endpoints
   class OA3ToKrakendTransformer
-    SCHEME_TYPES_WITH_ROLES = %w[openIdConnect oauth2]
+    SCHEME_TYPES_WITH_ROLES = %w[openIdConnect oauth2].freeze
 
     def initialize(spec, importer_config)
       @spec = spec
@@ -22,20 +22,20 @@ module KrakendOpenAPI
       return nil if securities.nil?
 
       securities.map do |security|
-        security.map do |name, scopes|
+        security.filter_map do |name, scopes|
           next nil unless oauth_security_scheme_names.include?(name)
 
           scopes
-        end.compact
+        end
       end.flatten.uniq
     end
 
     def oauth_security_scheme_names
-      @spec.security_schemes.map do |name, scheme|
+      @spec.security_schemes.filter_map do |name, scheme|
         next nil unless SCHEME_TYPES_WITH_ROLES.include?(scheme['type'])
 
         name
-      end.compact
+      end
     end
 
     def transform_path(path, methods)
@@ -45,18 +45,16 @@ module KrakendOpenAPI
     def transform_method(path, method, operation)
       roles = operation['x-jwt-roles']&.length ? operation['x-jwt-roles'] : @importer_config['all_roles']
       scopes = oauth_scopes_for(operation['security']) || oauth_scopes_for(@spec.security)
-
       plugins = []
-      if @importer_config['defaults']&.dig('plugins', 'auth_validator') &&
-         (roles&.any? || scopes&.any?)
-        plugins << Plugins::AuthValidatorTransformer
-                   .new
-                   .transform_to_hash(roles: roles,
-                                      scopes: scopes,
-                                      config: @importer_config['defaults']['plugins']['auth_validator'])
-      end
+      plugins << auth_validator_plugin(roles, scopes) if auth_validator_plugin_enabled?(roles, scopes)
+      endpoint = krakend_endpoint(path, method)
+      endpoint[:extra_config] = endpoint_extra_config(plugins) unless plugins.empty?
 
-      endpoint = {
+      endpoint
+    end
+
+    def krakend_endpoint(path, method)
+      {
         endpoint: path,
         method: method.upcase,
         output_encoding: @importer_config['defaults']&.dig('endpoint', 'output_encoding'),
@@ -64,16 +62,27 @@ module KrakendOpenAPI
         input_query_strings: @importer_config['defaults']&.dig('endpoint', 'input_query_strings'),
         backend: [{ url_pattern: path, encoding: @importer_config['defaults']&.dig('backend', 0, 'encoding') }.compact]
       }.compact
+    end
 
-      if plugins&.length&.> 0
-        extra_config = plugins.each_with_object({}) do |plugin, memo|
-          memo[plugin[:name].to_sym] = plugin[:value]
-        end
+    def auth_validator_plugin_enabled?(roles, scopes)
+      @importer_config['defaults']&.dig('plugins', 'auth_validator') &&
+        (roles&.any? || scopes&.any?)
+    end
 
-        endpoint[:extra_config] = extra_config
+    def auth_validator_plugin(roles, scopes)
+      Plugins::AuthValidatorTransformer
+        .new
+        .transform_to_hash(
+          roles: roles,
+          scopes: scopes,
+          config: @importer_config['defaults']['plugins']['auth_validator']
+        )
+    end
+
+    def endpoint_extra_config(plugins)
+      plugins.each_with_object({}) do |plugin, memo|
+        memo[plugin[:name].to_sym] = plugin[:value]
       end
-
-      endpoint
     end
   end
 end
