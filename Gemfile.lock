@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    krakend-openapi-importer (0.4.0)
+    krakend-openapi-importer (1.0.0)
       thor (~> 1.2)
 
 GEM

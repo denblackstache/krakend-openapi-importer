@@ -32,6 +32,13 @@
       }
     }
   ],
+  "security": [
+    {
+      "petstore_auth": [
+        "read:pets"
+      ]
+    }
+  ],
   "paths": {
     "/pet": {
       "post": {
@@ -137,13 +144,7 @@
         },
         "security": [
           {
-            "api_key": []
-          },
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": []
           }
         ]
       },
@@ -186,15 +187,7 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [

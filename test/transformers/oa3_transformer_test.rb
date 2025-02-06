@@ -5,9 +5,9 @@ require_relative '../../lib/readers/oa3_reader'
 require_relative '../../lib/transformers/oa3_transformer'
 
 describe 'OpenAPI 3.0 Transformer' do
-  let(:paths) { KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.json').paths }
+  let(:spec) { KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.json') }
   let(:importer_config) { YAML.safe_load(File.read('test/fixtures/importer.yaml')) }
-  let(:subject) { KrakendOpenAPI::OA3ToKrakendTransformer.new(paths, importer_config) }
+  let(:subject) { KrakendOpenAPI::OA3ToKrakendTransformer.new(spec, importer_config) }
 
   it 'transforms multiple OpenAPI paths to KrakenD endpoints' do
     result = subject.transform_paths
@@ -25,16 +25,33 @@ describe 'OpenAPI 3.0 Transformer' do
                    input_query_strings: ['*'],
                    backend: [{ url_pattern: '/pet', encoding: 'no-op' }],
                    extra_config: {
-                     'auth/validator': { alg: 'RS256',
-                                         jwk_url: 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs',
-                                         cache: false,
-                                         operation_debug: true,
-                                         roles_key_is_nested: true,
-                                         roles_key: 'realm_access.roles',
-                                         roles: %w[admin guest] }
+                     'auth/validator': { 'alg' => 'RS256',
+                                         'jwk_url' => 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs',
+                                         'cache' => false,
+                                         'operation_debug' => true,
+                                         'roles_key' => 'realm_access.roles',
+                                         'roles_key_is_nested' => true,
+                                         'roles' => %w[admin guest],
+                                         'scopes' => %w[write:pets read:pets] }
                    }
                  },
                  result[0])
+  end
+
+  describe 'having empty security scopes' do
+    it 'is public' do
+      result = subject.transform_paths
+      scopes = result[1][:extra_config][:'auth/validator']['scopes']
+      assert_nil(scopes)
+    end
+  end
+
+  describe 'having default security scopes' do
+    it 'has the default scopes' do
+      result = subject.transform_paths
+      scopes = result[2][:extra_config][:'auth/validator']['scopes']
+      assert_equal(['read:pets'], scopes)
+    end
   end
 
   describe 'having missing importer config properties' do

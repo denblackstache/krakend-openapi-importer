@@ -5,6 +5,8 @@ all_roles:
 pretty: false
 output: 'output.json'
 defaults:
+  base:
+    name: Test Name
   endpoint:
     output_encoding: "no-op"
     input_headers: [ "*" ]
