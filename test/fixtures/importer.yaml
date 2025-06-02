@@ -13,6 +13,7 @@ defaults:
     input_query_strings: [ "*" ]
   backend:
     - encoding: "no-op"
+      host: [ "https://example.org" ]
   plugins:
     auth_validator:
       alg: 'RS256'

@@ -60,7 +60,11 @@ module KrakendOpenAPI
         output_encoding: @importer_config['defaults']&.dig('endpoint', 'output_encoding'),
         input_headers: @importer_config['defaults']&.dig('endpoint', 'input_headers'),
         input_query_strings: @importer_config['defaults']&.dig('endpoint', 'input_query_strings'),
-        backend: [{ url_pattern: path, encoding: @importer_config['defaults']&.dig('backend', 0, 'encoding') }.compact]
+        backend: [{
+          url_pattern: path,
+          encoding: @importer_config['defaults']&.dig('backend', 0, 'encoding'),
+          host: @importer_config['defaults']&.dig('backend', 0, 'host')
+        }.compact]
       }.compact
     end
 

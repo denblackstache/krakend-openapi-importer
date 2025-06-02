@@ -1,5 +1,5 @@
 {
-  "$schema": "https://www.krakend.io/schema/v3.json",
+  "$schema": "https://www.krakend.io/schema/v2.1/krakend.json",
   "version": 3,
   "name": "Test Name",
   "endpoints": [
@@ -16,7 +16,8 @@
       "backend": [
         {
           "url_pattern": "/pet",
-          "encoding": "no-op"
+          "encoding": "no-op",
+          "host": ["https://example.org"]
         }
       ],
       "extra_config": {
@@ -51,7 +52,8 @@
       "backend": [
         {
           "url_pattern": "/pet/{petId}",
-          "encoding": "no-op"
+          "encoding": "no-op",
+          "host": ["https://example.org"]
         }
       ],
       "extra_config": {
@@ -82,7 +84,8 @@
       "backend": [
         {
           "url_pattern": "/pet/{petId}",
-          "encoding": "no-op"
+          "encoding": "no-op",
+          "host": ["https://example.org"]
         }
       ],
       "extra_config": {
@@ -116,7 +119,8 @@
       "backend": [
         {
           "url_pattern": "/pet/{petId}",
-          "encoding": "no-op"
+          "encoding": "no-op",
+          "host": ["https://example.org"]
         }
       ],
       "extra_config": {
