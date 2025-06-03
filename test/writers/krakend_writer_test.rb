@@ -34,7 +34,7 @@ describe 'Krakend Writer' do
     subject.write
     output = JSON.parse(File.read(config['output']))
     assert_equal(3, output['version'])
-    assert_equal('https://www.krakend.io/schema/v2.1/krakend.json', output['$schema'])
+    assert_equal('https://www.krakend.io/schema/v2.3/krakend.json', output['$schema'])
     assert_empty(output['endpoints'])
   end
 
