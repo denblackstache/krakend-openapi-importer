@@ -23,7 +23,7 @@ describe 'OpenAPI 3.0 Transformer' do
                    output_encoding: 'no-op',
                    input_headers: ['*'],
                    input_query_strings: ['*'],
-                   backend: [{ url_pattern: '/pet', encoding: 'no-op' }],
+                   backend: [{ url_pattern: '/pet', encoding: 'no-op', host: ['https://example.org'] }],
                    extra_config: {
                      'auth/validator': { 'alg' => 'RS256',
                                          'jwk_url' => 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs',

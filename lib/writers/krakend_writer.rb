@@ -14,7 +14,7 @@ module KrakendOpenAPI
 
     def write
       config = {
-        '$schema': 'https://www.krakend.io/schema/v3.json',
+        '$schema': 'https://www.krakend.io/schema/v2.3/krakend.json',
         version: 3
       }
 
