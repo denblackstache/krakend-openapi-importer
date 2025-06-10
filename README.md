@@ -4,7 +4,8 @@ Import endpoints from OpenAPI spec to KrakenD endpoint configuration. Supports O
 
 [![Ruby](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml/badge.svg)](https://github.com/denblackstache/krakend-openapi-importer/actions/workflows/main.yml) [![Gem Version](https://badge.fury.io/rb/krakend-openapi-importer.svg)](https://badge.fury.io/rb/krakend-openapi-importer)
 
-In case you have a different version of OpenAPI you can use <https://github.com/LucyBot-Inc/api-spec-converter> to convert to the v3.0.
+* In case you have a different version of OpenAPI you can use <https://github.com/LucyBot-Inc/api-spec-converter> to convert to the v3.0.
+* Supported Ruby versions: 2.7 and up
 
 ## Installation
 
@@ -31,10 +32,10 @@ Example config
 
 ```yaml
 ---
-all_roles: ["admin", "guest"] # all available roles for JWT validator
-pretty: true
-format: "json" # can be 'json' or 'yaml', defaults to `json`
-output: "output.json"
+format: "json" # can be 'json' or 'yaml', optional, defaults to 'json'
+pretty: false # make JSON pretty, optional, defaults to false
+output: "output.json" # output file name, optional, defaults to 'output.json'
+all_roles: ["guest"] # fall back roles for auth validator plugin when operation 'x-jwt-roles` are not specified, optional
 defaults:
   base:
     name: Example application
@@ -44,6 +45,7 @@ defaults:
     input_query_strings: ["*"]
   backend:
     - encoding: "no-op"
+      host: [ "https://example.org" ]
   plugins:
     auth_validator:
       alg: "RS256"
@@ -52,8 +54,13 @@ defaults:
       operation_debug: true
       roles_key: "realm_access.roles"
       roles_key_is_nested: true
-      scopes_key: scopes # only needed when defining scopes in openapi spec
+      scopes_key: scopes # only needed when defining scopes in OpenAPI spec
 ```
+
+### Auth Validator plugin configuration
+
+* You can specify custom roles for each OpenAPI [operation](https://swagger.io/specification/v3/#operation-object) using the `x-jwt-roles` [operation extension](https://swagger.io/specification/v3/#specification-extensions). If no `x-jwt-roles` are provided for an operation, the plugin will fall back to the default roles defined in the `all_roles` configuration.
+* Importer supports `openIdConnect` and `oauth2` security schemes defined using [Security Requirement Objects](https://swagger.io/specification/v3/#security-requirement-object).
 
 ## Development
 
