@@ -35,7 +35,7 @@ Example config
 format: "json" # can be 'json' or 'yaml', optional, defaults to 'json'
 pretty: false # make JSON pretty, optional, defaults to false
 output: "output.json" # output file name, optional, defaults to 'output.json'
-all_roles: ["guest"] # fall back roles for auth validator plugin when operation 'x-jwt-roles` are not specified, optional
+default_roles: ["guest"] # fall back roles for auth validator plugin when operation 'x-jwt-roles` are not specified, optional
 defaults:
   base:
     name: Example application
@@ -59,7 +59,7 @@ defaults:
 
 ### Auth Validator plugin configuration
 
-* You can specify custom roles for each OpenAPI [operation](https://swagger.io/specification/v3/#operation-object) using the `x-jwt-roles` [operation extension](https://swagger.io/specification/v3/#specification-extensions). If no `x-jwt-roles` are provided for an operation, the plugin will fall back to the default roles defined in the `all_roles` configuration.
+* You can specify custom roles for each OpenAPI [operation](https://swagger.io/specification/v3/#operation-object) using the `x-jwt-roles` [operation extension](https://swagger.io/specification/v3/#specification-extensions). If no `x-jwt-roles` are provided for an operation, the plugin will fall back to the default roles defined in the `default_roles` configuration.
 * Importer supports `openIdConnect` and `oauth2` security schemes defined using [Security Requirement Objects](https://swagger.io/specification/v3/#security-requirement-object).
 
 ## Development

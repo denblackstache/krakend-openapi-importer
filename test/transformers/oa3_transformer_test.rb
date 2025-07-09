@@ -38,6 +38,19 @@ describe 'OpenAPI 3.0 Transformer' do
                  result[0])
   end
 
+  describe 'having extra path items that are not methods' do
+    it 'ignores non-method path items' do
+      spec_with_extra = KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.json')
+      spec_with_extra.paths['/pet']['x-extra'] = { 'foo' => 'bar' }
+      spec_with_extra.paths['/pet']['parameters'] = { 'foo' => 'bar' }
+      subject_with_extra = KrakendOpenAPI::OA3ToKrakendTransformer.new(spec_with_extra, importer_config)
+
+      result = subject_with_extra.transform_paths
+      expected = subject.transform_paths
+      assert_equal(expected, result)
+    end
+  end
+
   describe 'having empty security scopes' do
     it 'is public' do
       result = subject.transform_paths
@@ -49,7 +62,7 @@ describe 'OpenAPI 3.0 Transformer' do
   describe 'having default security scopes' do
     it 'has the default scopes' do
       result = subject.transform_paths
-      scopes = result[2][:extra_config][:'auth/validator']['scopes']
+      scopes = result.find { |operation| operation[:method] == 'PATCH' }[:extra_config][:'auth/validator']['scopes']
       assert_equal(['read:pets'], scopes)
     end
   end
@@ -65,6 +78,17 @@ describe 'OpenAPI 3.0 Transformer' do
                      backend: [{ url_pattern: '/pet' }]
                    },
                    result[0])
+    end
+  end
+
+  describe 'when path_items contains no HTTP methods' do
+    it 'returns an empty array for that path' do
+      spec_with_no_methods = KrakendOpenAPI::OA3Reader.new('test/fixtures/pet-store.json')
+      spec_with_no_methods.paths['/no-methods'] = { 'parameters' => [{ 'name' => 'foo', 'in' => 'query' }] }
+      subject_with_no_methods = KrakendOpenAPI::OA3ToKrakendTransformer.new(spec_with_no_methods, importer_config)
+
+      result = subject_with_no_methods.transform_paths
+      refute_includes(result.map { |ep| ep[:endpoint] }, '/no-methods')
     end
   end
 end

@@ -13,6 +13,7 @@ end
 begin
   KrakendOpenAPI::Importer.start(ARGV)
 rescue StandardError => e
-  puts "ERROR: #{e.message}"
+  warn "ERROR: #{e.message}"
+  warn e.backtrace&.join("\n")
   exit 1
 end

@@ -21,3 +21,6 @@ Metrics/MethodLength:
 
 Metrics/BlockLength:
   Enabled: false
+
+Style/HashSlice:
+  Enabled: false

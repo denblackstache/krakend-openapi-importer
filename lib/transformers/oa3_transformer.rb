@@ -6,6 +6,7 @@ module KrakendOpenAPI
   # Transforms OpenAPI paths to KrakenD endpoints
   class OA3ToKrakendTransformer
     SCHEME_TYPES_WITH_ROLES = %w[openIdConnect oauth2].freeze
+    PATH_METHODS = %w[get put post delete options head patch trace].freeze
 
     def initialize(spec, importer_config)
       @spec = spec
@@ -13,7 +14,7 @@ module KrakendOpenAPI
     end
 
     def transform_paths
-      @spec.paths.map { |path, methods| transform_path(path, methods) }.flatten
+      @spec.paths.map { |path, path_items| transform_path(path, path_items) }.flatten
     end
 
     private
@@ -38,12 +39,18 @@ module KrakendOpenAPI
       end
     end
 
-    def transform_path(path, methods)
+    def transform_path(path, path_items)
+      methods = path_items.filter { |k, _| PATH_METHODS.include?(k) }
       methods.map { |method, operation| transform_method(path, method, operation) }
     end
 
     def transform_method(path, method, operation)
-      roles = operation['x-jwt-roles']&.length ? operation['x-jwt-roles'] : @importer_config['all_roles']
+      roles = if operation['x-jwt-roles']&.length
+                operation['x-jwt-roles']
+              else
+                # TODO: @deprecated 'all_roles' legacy config should be removed in the next major release
+                @importer_config['default_roles'] || @importer_config['all_roles']
+              end
       scopes = oauth_scopes_for(operation['security']) || oauth_scopes_for(@spec.security)
       plugins = []
       plugins << auth_validator_plugin(roles, scopes) if auth_validator_plugin_enabled?(roles, scopes)
