@@ -36,6 +36,7 @@ format: "json" # can be 'json' or 'yaml', optional, defaults to 'json'
 pretty: false # make JSON pretty, optional, defaults to false
 output: "output.json" # output file name, optional, defaults to 'output.json'
 default_roles: ["guest"] # fall back roles for auth validator plugin when operation 'x-jwt-roles` are not specified, optional
+base_path: '/api/v1' # optional, defaults to ''
 defaults:
   base:
     name: Example application

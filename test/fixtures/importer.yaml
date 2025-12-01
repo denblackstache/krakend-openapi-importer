@@ -4,6 +4,7 @@ default_roles:
   - 'guest'
 pretty: false
 output: 'output.json'
+base_path: '/api/v1'
 defaults:
   base:
     name: Test Name

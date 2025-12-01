@@ -18,12 +18,12 @@ describe 'OpenAPI 3.0 Transformer' do
   it 'transforms path' do
     result = subject.transform_paths
     assert_equal({
-                   endpoint: '/pet',
+                   endpoint: '/api/v1/pet',
                    method: 'POST',
                    output_encoding: 'no-op',
                    input_headers: ['*'],
                    input_query_strings: ['*'],
-                   backend: [{ url_pattern: '/pet', encoding: 'no-op', host: ['https://example.org'] }],
+                   backend: [{ url_pattern: '/api/v1/pet', encoding: 'no-op', host: ['https://example.org'] }],
                    extra_config: {
                      'auth/validator': { 'alg' => 'RS256',
                                          'jwk_url' => 'https://keycloak.dev/auth/realms/dara/protocol/openid-connect/certs',

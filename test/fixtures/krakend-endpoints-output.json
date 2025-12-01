@@ -4,7 +4,7 @@
   "name": "Test Name",
   "endpoints": [
     {
-      "endpoint": "/pet",
+      "endpoint": "/api/v1/pet",
       "method": "POST",
       "output_encoding": "no-op",
       "input_headers": [
@@ -15,7 +15,7 @@
       ],
       "backend": [
         {
-          "url_pattern": "/pet",
+          "url_pattern": "/api/v1/pet",
           "encoding": "no-op",
           "host": ["https://example.org"]
         }
@@ -40,7 +40,7 @@
       }
     },
     {
-      "endpoint": "/pet/{petId}",
+      "endpoint": "/api/v1/pet/{petId}",
       "method": "GET",
       "output_encoding": "no-op",
       "input_headers": [
@@ -51,7 +51,7 @@
       ],
       "backend": [
         {
-          "url_pattern": "/pet/{petId}",
+          "url_pattern": "/api/v1/pet/{petId}",
           "encoding": "no-op",
           "host": ["https://example.org"]
         }
@@ -72,7 +72,7 @@
       }
     },
     {
-      "endpoint": "/pet/{petId}",
+      "endpoint": "/api/v1/pet/{petId}",
       "method": "PATCH",
       "output_encoding": "no-op",
       "input_headers": [
@@ -83,7 +83,7 @@
       ],
       "backend": [
         {
-          "url_pattern": "/pet/{petId}",
+          "url_pattern": "/api/v1/pet/{petId}",
           "encoding": "no-op",
           "host": ["https://example.org"]
         }
@@ -107,7 +107,7 @@
       }
     },
     {
-      "endpoint": "/pet/{petId}",
+      "endpoint": "/api/v1/pet/{petId}",
       "method": "DELETE",
       "output_encoding": "no-op",
       "input_headers": [
@@ -118,7 +118,7 @@
       ],
       "backend": [
         {
-          "url_pattern": "/pet/{petId}",
+          "url_pattern": "/api/v1/pet/{petId}",
           "encoding": "no-op",
           "host": ["https://example.org"]
         }
