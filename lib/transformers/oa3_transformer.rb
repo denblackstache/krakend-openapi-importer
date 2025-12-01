@@ -61,14 +61,17 @@ module KrakendOpenAPI
     end
 
     def krakend_endpoint(path, method)
+      base_path = @importer_config['base_path'] || ''
+      endpoint_path = "#{base_path}#{path}"
+
       {
-        endpoint: path,
+        endpoint: endpoint_path,
         method: method.upcase,
         output_encoding: @importer_config['defaults']&.dig('endpoint', 'output_encoding'),
         input_headers: @importer_config['defaults']&.dig('endpoint', 'input_headers'),
         input_query_strings: @importer_config['defaults']&.dig('endpoint', 'input_query_strings'),
         backend: [{
-          url_pattern: path,
+          url_pattern: endpoint_path,
           encoding: @importer_config['defaults']&.dig('backend', 0, 'encoding'),
           host: @importer_config['defaults']&.dig('backend', 0, 'host')
         }.compact]
